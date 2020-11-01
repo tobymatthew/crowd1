@@ -3,6 +3,7 @@ const path = require('path');
 const { engine } = require('express-edge');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const expressSession = require('express-session')
 
 
 
@@ -22,6 +23,10 @@ const dashboardController = require('./controllers/dashboard')
 const logoutController = require('./controllers/logout')
 
 const app = new express();
+
+app.use(expressSession({
+    secret: 'secret'
+}))
 
 mongoose.connect('mongodb://localhost/crowd1', {
     useNewUrlParser:true, 
