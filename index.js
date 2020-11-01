@@ -4,7 +4,10 @@ const { engine } = require('express-edge');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const expressSession = require('express-session')
+const connectMongo = require('connect-mongo')
+const connectFlash = require('connect-flash')
 
+const auth = require('./middleware/auth')
 
 
 const homePageController = require('./controllers/homePage')
@@ -24,9 +27,18 @@ const logoutController = require('./controllers/logout')
 
 const app = new express();
 
+const mongoStore = connectMongo(expressSession);
+
+app.use(connectFlash())
 app.use(expressSession({
-    secret: 'secret'
+    secret: 'secret',
+    store: new mongoStore({
+        mongooseConnection: mongoose.connection
+    }),
+    resave: true,
+    saveUninitialized: true
 }))
+
 
 mongoose.connect('mongodb://localhost/crowd1', {
     useNewUrlParser:true, 
@@ -41,6 +53,8 @@ app.set('views', `${__dirname}/views`)
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded( { extended: true }))
 
+
+
 app.get('/', homePageController)
 app.get('/about', aboutPageController)
 app.get('/signup', signupController)
@@ -53,7 +67,7 @@ app.get('/introduction-to-network-marketing', netmarketingController)
 app.get('/introduction-to-crowd-marketing', crowdmarketingController)
 app.post('/user/signup', storeUserController)
 app.post('/user/login', loginUserController)
-app.get('/user/dashboard', dashboardController)
+app.get('/user/dashboard', auth, dashboardController)
 app.get('/logout', logoutController)
 
 
