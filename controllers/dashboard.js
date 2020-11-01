@@ -1,4 +1,6 @@
-module.exports = (req, res) => {
-    console.log(req.session)
-    res.render('dashboard')
-}
+if(req.session.userId)
+    {
+       return res.render('dashboard')
+    }
+    res.redirect('/login')
+   

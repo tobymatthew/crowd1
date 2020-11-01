@@ -1,6 +1,6 @@
 const User = require('../database/models/user')
 const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+
 
 
 module.exports = (req, res) => {
@@ -25,13 +25,16 @@ module.exports = (req, res) => {
 
         user.save().then(user => {
             console.log('user added successfully')
-        }).catch(err => {
-            console.log(err)
+        }).catch(error => {
+
+            const registrationErrors = Object.keys(error.errors).map(key => error.errors[key].message)
+            req.flash('registrationErrors', registrationErrors)
+            req.flash('data', req.body)
             res.redirect('/signup')
         })
-        
+       
     })
 
-    res.redirect('/')
+    
     
 }

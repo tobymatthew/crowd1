@@ -13,9 +13,8 @@ module.exports = (req, res) => {
                     console.log(err)
                 }
                 if(result) {
-                    req.session._userid = user._id
+                    req.session.userId = user._id
                    console.log('Login Succesful')
-                   console.log(req.session)
                    res.redirect('/user/dashboard')
                 }
             })
