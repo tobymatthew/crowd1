@@ -1,0 +1,48 @@
+@layout('layouts.app2')
+
+@section('content')
+<main class="log-reg-wrapper">
+    <div id="epiclogin"></div>
+    <div class="log-reg__inner">
+    <div class="log-reg__bg"></div>
+    <div class="log-reg-content-wrapper">
+    <section class="log-reg-content log-reg-content--login">
+    <form action="/user/login" method="POST" class="log-reg-form log-reg-form--login" id="loginForm">
+    <h2 class="tac">Log In </h2>
+    <p class="tac"><strong>Don’t have an account yet? <a href="/signup" class="highlight--blue">Register
+    here</a></strong></p>
+    <div class="form-group">
+    <div class="form-group--animate-label">
+    <input type="text" name="username" id="username" class="form-control--log-reg" autofocus>
+    <label for="username">Username</label>
+    </div>
+    </div>
+    <div class="form-group">
+    <div class="form-group--animate-label">
+    <input type="password" name="password" id="password" class="form-control--log-reg">
+    <label for="password">Password</label>
+    </div>
+    </div>
+    <div id="recaptchav2"></div>
+    <div id="g-recaptcha2"> </div>
+    <div class="form-group--animate-label mtg3x tac">
+    <button type="submit" class="btn"  id="loginbutton">Login</button>
+    <p class="tac pt"><strong>Forgot your password? <a href="/forgotpassword" class="highlight--blue">Click here</a></strong></p>
+    </div>
+    <script src="//www.google.com/recaptcha/api.js?render=6LcGt74UAAAAAFo5eOmlT2UynS4v2A0mq8PtTCeP"></script>
+    <script>
+                              grecaptcha.ready(function() {
+                                  grecaptcha.execute('6LcGt74UAAAAAFo5eOmlT2UynS4v2A0mq8PtTCeP', {action: 'login'}).then(function(token) {
+                                        console.log(token);
+                                        $("#recaptchatoken3").val(token);
+                                    });
+                              });
+                              </script>
+    <input type="hidden" name="wanted" value="">
+    <input type="hidden" id="recaptchatoken3" name="recaptchatoken3" value="">
+    </form>
+    </section>
+    </div>
+    </div>
+</main>
+@endsection
